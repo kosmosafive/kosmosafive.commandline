@@ -7,12 +7,54 @@
 
 Может использоваться как замена стандартного функционала или дополнительный инструмент.
 
+<p align="center">
+    <picture>
+      <img alt="img-main" src="https://raw.githubusercontent.com/kosmosafive/kosmosafive.commandline/HEAD/.github/img-main.png" style="max-width: 100%;">
+    </picture>
+</p>
+
 - **Многовкладочный редактор**. Одновременно можно держать открытыми несколько независимых скриптов. Вкладки создаются, переименовываются и удаляются в пару кликов. Все скрипты сохраняются в браузере автоматически — они никуда не пропадут после перезагрузки страницы или закрытия вкладки.
+
+<p align="center">
+    <picture>
+      <img alt="img-tabs" src="https://raw.githubusercontent.com/kosmosafive/kosmosafive.commandline/HEAD/.github/img-tabs.png" style="max-width: 100%;">
+    </picture>
+</p>
+
 - **Полноценный редактор кода**. В основе — Monaco Editor, тот же движок, что используется в VS Code. Подсветка синтаксиса PHP, автодополнение, парные скобки, отступы — всё работает так, как ожидает разработчик.
+
+<p align="center">
+    <picture>
+      <img alt="img-editor" src="https://raw.githubusercontent.com/kosmosafive/kosmosafive.commandline/HEAD/.github/img-editor.png" style="max-width: 100%;">
+    </picture>
+</p>
+
 - **Автодополнение при наборе кода**. Редактор знает о ваших классах и методах. При наборе кода предлагаются подсказки с сигнатурами методов и сниппеты с подстановкой параметров.
+
+<p align="center">
+    <picture>
+      <img alt="img-completion" src="https://raw.githubusercontent.com/kosmosafive/kosmosafive.commandline/HEAD/.github/img-completion.png" style="max-width: 100%;">
+    </picture>
+</p>
+
 - **Запуск кода**. Написанный скрипт отправляется на сервер и выполняется в контексте текущего Bitrix-окружения. Результат отображается сразу под редактором. Для удобства работы с отладочным выводом (например, var_dump, print_r или вывод Symfony VarDumper) доступен режим отображения оригинального HTML-ответа.
+
+
 - **Вывод результата**. Консоль показывает результат выполнения, время работы скрипта, потребление памяти и статус запроса. При необходимости вывод можно открыть на весь экран — удобно, когда результат объёмный.
+
+<p align="center">
+    <picture>
+      <img alt="img-output" src="https://raw.githubusercontent.com/kosmosafive/kosmosafive.commandline/HEAD/.github/img-output.png" style="max-width: 100%;">
+    </picture>
+</p>
+
 - **Настройка под себя**. Светлая и тёмная тема интерфейса, несколько тем оформления самого редактора, режим полного экрана для работы с большими скриптами.
+
+<p align="center">
+    <picture>
+      <img alt="img-dark-theme" src="https://raw.githubusercontent.com/kosmosafive/kosmosafive.commandline/HEAD/.github/img-dark-theme.png" style="max-width: 100%;">
+    </picture>
+</p>
 
 ## Установка
 
