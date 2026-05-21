@@ -96,7 +96,19 @@
 }
 ```
 
-Установите модуль и зависимости.
+Установите зависимости. Добавьте модуль
+```bash
+composer require kosmosafive/kosmosafive.commandline
+```
+
+Подключите автозагрузку из vendor. Например, в файле /bitrix/.settings.php или /bitrix/.settings_extra.php добавьте
+
+```php
+$vendorAutoload = dirname(__DIR__) . '/local/vendor/autoload.php';
+if (file_exists($vendorAutoload)) {
+    require_once $vendorAutoload;
+}
+```
 
 ## Конфигурация модуля
 
