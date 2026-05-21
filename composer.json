@@ -1,0 +1,46 @@
+{
+  "name": "kosmosafive/kosmosafive.commandline",
+  "description": "Командная PHP-строка",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/kosmosafive/kosmosafive.commandline",
+  "type": "bitrix-d7-module",
+  "minimum-stability": "stable",
+  "keywords": [
+    "bitrix",
+    "command",
+    "line",
+    "eval",
+    "execute"
+  ],
+  "authors": [
+    {
+      "name": "Siarhei Buinevich",
+      "email": "a5-kosmos@yandex.ru",
+      "homepage": "https://t.me/kosmosafive",
+      "role": "Author"
+    }
+  ],
+  "require": {
+    "php": ">=8.4",
+    "kosmosafive/bitrix-ds": "^1.6",
+    "kosmosafive/bitrix-diag": "^2.0",
+    "nikic/php-parser": "^5",
+    "symfony/console": "^6 || ^7 || ^8"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "phpstan/phpstan": "^2.1",
+    "rector/rector": "^2.4",
+    "lendable/composer-license-checker": "^1.4",
+    "shipmonk/composer-dependency-analyser": "^1.8",
+    "friendsofphp/php-cs-fixer": "^3.95",
+    "monolog/monolog": "^3.10"
+  },
+  "scripts": {
+    "analyse": "vendor/bin/phpstan analyse -c phpstan.neon --ansi",
+    "rector:dry-run": "vendor/bin/rector process --config rector.php --dry-run --clear-cache --ansi",
+    "rector:process": "vendor/bin/rector process --config rector.php --clear-cache --ansi",
+    "license:check": "vendor/bin/composer-license-checker --allow-file .allowed-licenses.php --ansi",
+    "dependency:check": "vendor/bin/composer-dependency-analyser --config composer-dependency-analyser.php"
+  }
+}
