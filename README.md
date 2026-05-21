@@ -63,16 +63,18 @@
 ```json
 {
   "require": {
-    "wikimedia/composer-merge-plugin": "dev-master"
+    "wikimedia/composer-merge-plugin": "dev-master",
+    "composer/installers": "^2.3"
   },
   "config": {
     "allow-plugins": {
+      "composer/installers": true,
       "wikimedia/composer-merge-plugin": true
     }
   },
   "extra": {
     "merge-plugin": {
-      "require": [
+      "include": [
         "../bitrix/composer-bx.json",
         "modules/*/composer.json"
       ],
@@ -82,7 +84,8 @@
       "merge-dev": true,
       "merge-extra": false,
       "merge-extra-deep": false,
-      "merge-scripts": false
+      "merge-scripts": false,
+      "merge-ignore-none": true
     },
     "installer-paths": {
       "modules/{$name}/": [
