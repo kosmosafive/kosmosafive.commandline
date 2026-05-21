@@ -673,7 +673,7 @@
     "src": "node_modules/monaco-editor/esm/vs/base/browser/ui/codicons/codicon/codicon.ttf"
   },
   "src/main.js": {
-    "file": "assets/main-BE_AfkDA.js",
+    "file": "assets/main-DH3k509a.js",
     "name": "main",
     "src": "src/main.js",
     "isEntry": true,
@@ -681,7 +681,7 @@
       "_monaco-editor-BQWVYcsz.js"
     ],
     "css": [
-      "assets/main-BViuzkx-.css"
+      "assets/main-CWBEljG6.css"
     ],
     "assets": [
       "assets/codicon-DCmgc-ay.ttf"
