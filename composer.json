@@ -25,7 +25,8 @@
     "kosmosafive/bitrix-ds": "^1.6",
     "kosmosafive/bitrix-diag": "^2.0",
     "nikic/php-parser": "^5",
-    "symfony/console": "^6 || ^7 || ^8"
+    "symfony/console": "^6 || ^7 || ^8",
+    "symfony/lock": "^6 || ^7 || ^8"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",

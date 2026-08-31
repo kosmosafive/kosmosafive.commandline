@@ -84,7 +84,13 @@ class GenerateHintsCommand extends Command
                     }
 
                     $code = file_get_contents($file->getRealPath());
-                    $stmts = $parser->parse($code);
+
+                    try {
+                        $stmts = $parser->parse($code);
+                    } catch (Throwable) {
+                        continue;
+                    }
+
                     if (!$stmts) {
                         continue;
                     }
