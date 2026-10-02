@@ -54,13 +54,29 @@ class kosmosafive_commandline extends CModule
         $this->PARTNER_URI = Loc::getMessage('KOSMOSAFIVE_COMMAND_LINE_PARTNER_URI');
     }
 
-    public function GetPath($notDocumentRoot = false): array|string
+    public function GetPath($notDocumentRoot = false): string
     {
+        $moduleDir = str_replace('\\', '/', dirname(__DIR__));
+
         if ($notDocumentRoot) {
-            return str_ireplace(realpath(Application::getDocumentRoot()), '', dirname(__DIR__));
+            return $moduleDir;
         }
 
-        return dirname(__DIR__);
+        $documentRoot = str_replace('\\', '/', (string) realpath(Application::getDocumentRoot()));
+        if ($documentRoot !== '' && str_starts_with($moduleDir, $documentRoot)) {
+            return substr($moduleDir, strlen($documentRoot)) ?: '/';
+        }
+
+        // Shared /local outside site docroot (multi-site Docker layouts, etc.)
+        if (str_contains($moduleDir, '/local/modules/' . $this->MODULE_ID)) {
+            return '/local/modules/' . $this->MODULE_ID;
+        }
+
+        if (str_contains($moduleDir, '/bitrix/modules/' . $this->MODULE_ID)) {
+            return '/bitrix/modules/' . $this->MODULE_ID;
+        }
+
+        return '/local/modules/' . $this->MODULE_ID;
     }
 
     /**
@@ -95,7 +111,7 @@ class kosmosafive_commandline extends CModule
 
         $APPLICATION->IncludeAdminFile(
             Loc::getMessage('KOSMOSAFIVE_COMMAND_LINE_INSTALL_TITLE'),
-            $this->GetPath() . '/install/step.php'
+            $this->GetPath(true) . '/install/step.php'
         );
     }
 
@@ -110,7 +126,7 @@ class kosmosafive_commandline extends CModule
         if ($step < 2) {
             $APPLICATION->IncludeAdminFile(
                 Loc::getMessage('KOSMOSAFIVE_COMMAND_LINE_UNINSTALL_TITLE'),
-                $this->GetPath() . '/install/unstep1.php'
+                $this->GetPath(true) . '/install/unstep1.php'
             );
         } elseif ($step === 2) {
             if ($request->get('savedata') !== 'Y') {
@@ -124,39 +140,56 @@ class kosmosafive_commandline extends CModule
 
             $APPLICATION->IncludeAdminFile(
                 Loc::getMessage('KOSMOSAFIVE_COMMAND_LINE_UNINSTALL_TITLE'),
-                $this->GetPath() . '/install/unstep2.php'
+                $this->GetPath(true) . '/install/unstep2.php'
             );
         }
     }
 
     public function InstallFiles($arParams = []): bool
     {
-        $dir = new IO\Directory($this->GetPath() . '/admin/');
+        $dir = new IO\Directory($this->GetPath(true) . '/admin/');
         if ($dir->isExists()) {
             foreach ($dir->getChildren() as $item) {
-                if(
+                if (
                     !$item->isFile()
                     || in_array($item->getName(), $this->getExcludedAdminFiles(), true)
                 ) {
                     continue;
                 }
 
+                $adminFile = $item->getName();
                 $file = new IO\File(
                     Application::getDocumentRoot()
                     . '/bitrix/admin/'
                     . $this->MODULE_ID
                     . '_'
-                    . $item->getName()
+                    . $adminFile
                 );
 
+                $localPath = '/local/modules/' . $this->MODULE_ID . '/admin/' . $adminFile;
+                $bitrixPath = '/bitrix/modules/' . $this->MODULE_ID . '/admin/' . $adminFile;
+
                 $file->putContents(
-                    '<'
-                    . '?php require($_SERVER["DOCUMENT_ROOT"]."'
-                    . str_replace('\\', '/', $this->GetPath(true))
-                    . '/admin/'
-                    . $item->getName()
-                    . '");?'
-                    . '>'
+                    <<<PHP
+                    <?php
+
+                    \$paths = [
+                        \$_SERVER['DOCUMENT_ROOT'].'{$localPath}',
+                        \$_SERVER['DOCUMENT_ROOT'].'{$bitrixPath}',
+                    ];
+
+                    foreach (\$paths as \$path) {
+                        if (is_file(\$path)) {
+                            require \$path;
+
+                            return;
+                        }
+                    }
+
+                    http_response_code(500);
+                    echo 'Admin page not found';
+
+                    PHP
                 );
             }
         }
@@ -164,12 +197,12 @@ class kosmosafive_commandline extends CModule
         return true;
     }
 
-    public function UnInstallFiles()
+    public function UnInstallFiles(): void
     {
-        $dir = new IO\Directory($this->GetPath() . '/admin/');
+        $dir = new IO\Directory($this->GetPath(true) . '/admin/');
         if ($dir->isExists()) {
             foreach ($dir->getChildren() as $item) {
-                if(
+                if (
                     !$item->isFile()
                     || in_array($item->getName(), $this->getExcludedAdminFiles(), true)
                 ) {
